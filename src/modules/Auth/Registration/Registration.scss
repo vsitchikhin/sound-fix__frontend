@@ -1,0 +1,78 @@
+@import "src/css/variables";
+
+.registration {
+  &__form-wrapper {
+    width: 700px;
+    height: 440px;
+    background-color: $log-main-bg;
+    color: $log-second-font;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin: 180px auto;
+    padding: 36px 8% 40px;
+  }
+
+  .logoped,
+  .final-step {
+    height: 320px;
+  }
+
+  &__form-label {
+    display: block;
+    font-size: 18px;
+    margin-top: 12px;
+    &--checkbox {
+      display: block;
+      margin-top: 16px;
+    }
+  }
+
+  &__form-input,
+  &__form-password,
+  &__form-select,
+  &__form-checkbox {
+    width: 400px;
+    border: none;
+    border-radius: 4px;
+    background-color: $log-form-bg;
+    color: $log-second-font;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 0;
+    padding-left: 8px;
+  }
+
+  &__form-password {
+    font-weight: 900;
+  }
+
+  &__form-select {
+    font-size: 20px;
+    width: 200px;
+    height: 32px;
+  }
+
+  &__form-file {
+    padding-top: 4px;
+  }
+
+  &__form-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    margin-top: 20px;
+  }
+
+  &__form-checkbox:hover {
+    background-color: $log-main-link;
+  }
+
+  &__button-submit,
+  &__button-goto-next {
+    background-color: $log-main;
+    color: $log-font-dark;
+    font-weight: 600;
+    margin: 80px 20% 0;
+  }
+}

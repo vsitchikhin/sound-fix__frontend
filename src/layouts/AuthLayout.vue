@@ -1,28 +1,22 @@
 <template>
   <header class="header">
     <header-logo />
-    <header-nav-bar />
+    <header-auth-nav />
   </header>
 
   <router-view />
-
-  <footer>
-    <logo-footer />
-  </footer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import HeaderLogo from 'components/UI/HeaderLogo/HeaderLogo.vue';
-import HeaderNavBar from "components/UI/HeaderNavBar/HeaderNavBar.vue";
-import LogoFooter from "components/UI/LogoFooter/LogoFooter.vue";
+import HeaderAuthNav from "components/UI/HeaderAuth/HeaderAuthNav.vue";
 
 
 export default defineComponent({
   components: {
     HeaderLogo,
-    HeaderNavBar,
-    LogoFooter,
+    HeaderAuthNav,
   },
 });
 </script>
