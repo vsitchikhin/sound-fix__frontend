@@ -1,20 +1,15 @@
-import {defineComponent, ref, Ref} from 'vue';
-import {
-  AccountTypeEnum,
-  Passport,
-  RegistrationError,
-  TeacherData,
-  User,
-  UserData,
-  UserSexEnum
-} from './Registration.types';
-import axios from "axios";
+import { defineComponent, ref, Ref } from 'vue';
+import { Passport, RegistrationError, Teacher, User, UserData } from './Registration.types';
+import { RegistrationService } from './service/registration.service';
 
 export default defineComponent({
   setup() {
+    const registrationService = new RegistrationService()
+
     const user = new User();
-    const userData = new UserData();
-    const teacherData = new TeacherData();
+    const user_data = new UserData();
+    const teacher = new Teacher();
+    const passport = new Passport();
 
     const confirmPassword: Ref<string | null> = ref(null);
     const userAgreement: Ref<Boolean> = ref(false);
@@ -33,31 +28,31 @@ export default defineComponent({
     }
 
     function passportValidation(passport: Passport) {
-      return (passport.passportNumbers !== null
-        && passport.passportOrgan !== null
-        && passport.issueDate !== null
-        && passport.subdivisionCode !== null);
+      return (passport.passport_numbers !== null
+        && passport.passport_organ !== null
+        && passport.issue_date !== null
+        && passport.subdivision_code !== null);
     }
 
-    function checkFormData(user: User, data: UserData, teacher: TeacherData): void {
+    function checkFormData(user: User, data: UserData, teacher: Teacher, passport: Passport): void {
       registrationError.value = false;
       registrationErrors.length = 0;
 
-      const isValidEmail = emailValidate(user.email);
-      const isValidPassword = passwordValidation(user.password);
-      if (user.accountType === AccountTypeEnum.notStated || !isValidEmail || !isValidPassword) {
-        registrationErrors.push({error: 'User', title: 'Не правильно введены email или пароль, или не выбран тип аккаунта'});
+      const isValidEmail = emailValidate(user_data.email);
+      const isValidPassword = passwordValidation(user_data.password);
+      if (user_data.account_type === 'notStated' || !isValidEmail || !isValidPassword) {
+        registrationErrors.push({error: 'UserData', title: 'Не правильно введены email или пароль, или не выбран тип аккаунта'});
       }
 
-      const isValidPassport = passportValidation(data.passport);
-      const isValidDate = typeof data.birthDate === 'string' && (data.birthDate.length === 10 || data.birthDate.length === 8);
-      const isValidName = typeof data.name === 'string' && data.name.length > 1;
-      const isValidSurname = typeof data.surname === 'string' && data.surname.length > 1;
-      if (data.sex === UserSexEnum.notStated || !isValidPassport || !isValidDate || !isValidName || !isValidSurname) {
-        registrationErrors.push({error: 'UserData', title: 'Не правильно введены данные'})
+      const isValidPassport = passportValidation(passport);
+      const isValidDate = typeof user.birth_date === 'string' && (user.birth_date.length === 10 || user.birth_date.length === 8);
+      const isValidName = typeof user.name === 'string' && user.name.length > 1;
+      const isValidSurname = typeof user.surname === 'string' && user.surname.length > 1;
+      if (!isValidPassport || !isValidDate || !isValidName || !isValidSurname) {
+        registrationErrors.push({error: 'User', title: 'Не правильно введены данные'})
       }
 
-      if (user.accountType == AccountTypeEnum.teacher) {
+      if (user_data.account_type == 'teacher') {
         const isValidInstitute = typeof teacher.institution === 'string' && teacher.institution.length > 1;
         const isValidQualification = typeof teacher.qualification === 'string' && teacher.qualification.length > 1;
         if (!isValidInstitute || !isValidQualification) {
@@ -70,31 +65,38 @@ export default defineComponent({
       }
     }
 
-    async function submit() {
-      // checkFormData(user, userData, teacherData);
-      // console.log(user, userData, teacherData, userAgreement.value, personalDataAgreement.value, (user.password === confirmPassword.value && user.password !== null))
-      // const resolve = await fetch('http://localhost:8000/auth/singup/', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   credentials: 'include',
-      //   body: JSON.stringify({
-      //     user: user,
-      //     data: userData,
-      //     teacher: teacherData,
-      //   })
-      // });
-      const resolve = await axios.post('http://localhost:8000/singup/')
+    function submit() {
+      checkFormData(user, user_data, teacher, passport);
+      switch (user_data.account_type) {
+        case 'teacher': {
+          user_data.account_type = 1;
+          break;
+        }
+        case 'parent': {
+          user_data.account_type = 2;
+          break;
+        }
+        case 'child': {
+          user_data.account_type = 3;
+          break;
+        }
+      }
+      let body: object | string = {
+        user,
+        user_data,
+        teacher,
+        passport,
+      }
+      body = JSON.stringify(body);
 
-
-      // console.log(resolve);
+      registrationService.createNewUser(body);
     }
 
     return {
       user,
-      userData,
-      teacherData,
+      user_data,
+      teacher,
+      passport,
       userAgreement,
       personalDataAgreement,
       confirmPassword,
