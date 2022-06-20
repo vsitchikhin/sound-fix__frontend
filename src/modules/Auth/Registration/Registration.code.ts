@@ -1,9 +1,12 @@
 import { defineComponent, ref, Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { Passport, RegistrationError, Teacher, User, UserData } from './Registration.types';
 import { RegistrationService } from './service/registration.service';
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
+
     const registrationService = new RegistrationService()
 
     const user = new User();
@@ -90,6 +93,7 @@ export default defineComponent({
       body = JSON.stringify(body);
 
       registrationService.createNewUser(body);
+      router.push({name: 'login'});
     }
 
     return {
