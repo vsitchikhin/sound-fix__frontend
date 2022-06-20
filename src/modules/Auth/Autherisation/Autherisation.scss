@@ -1,0 +1,78 @@
+@import "src/css/variables";
+
+.autherisation {
+  &__form-wrapper {
+    width: 600px;
+    height: 360px;
+    background-color: $log-main-bg;
+    color: $log-second-font;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin: 180px auto 0;
+    padding: 40px 104px 40px;
+  }
+
+  &__form-label {
+    display: block;
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  &__form-input,
+  &__form-password {
+    width: 400px;
+    border: none;
+    border-radius: 4px;
+    background-color: $log-form-bg;
+    color: $log-second-font;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 0;
+    padding-left: 8px;
+  }
+
+  &__form-password {
+    font-weight: 900;
+  }
+
+  &__button-signin {
+    background-color: $log-main;
+    color: $log-font-dark;
+    font-weight: 600;
+    margin: 80px 30%;
+  }
+
+  &__redirect {
+    width: 600px;
+    height: 100px;
+    background-color: $log-main-bg;
+    color: $log-second-font;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin: 40px auto 0;
+    padding: 36px 40px;
+    display: flex;
+    justify-content: space-between;
+
+    &--question {
+    }
+
+    &--link {
+      font-weight: 600;
+      font-size: 18px;
+      color: $log-main;
+      text-decoration: none;
+      transition: .4s;
+      border-bottom: 2px solid $log-main;
+      cursor: pointer;
+    }
+
+    &--link:hover {
+      color: $log-main-link;
+      transition: .4s;
+      border-color: $log-main-link;
+    }
+  }
+}
