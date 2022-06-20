@@ -1,8 +1,11 @@
-import {defineComponent, ref, Ref} from 'vue';
-import {Passport, RegistrationError, Teacher, User, UserData,} from './Registration.types';
+import { defineComponent, ref, Ref } from 'vue';
+import { Passport, RegistrationError, Teacher, User, UserData } from './Registration.types';
+import { RegistrationService } from './service/registration.service';
 
 export default defineComponent({
   setup() {
+    const registrationService = new RegistrationService()
+
     const user = new User();
     const user_data = new UserData();
     const teacher = new Teacher();
@@ -31,7 +34,7 @@ export default defineComponent({
         && passport.subdivision_code !== null);
     }
 
-    function checkFormData(user: User, data: UserData, teacher: Teacher): void {
+    function checkFormData(user: User, data: UserData, teacher: Teacher, passport: Passport): void {
       registrationError.value = false;
       registrationErrors.length = 0;
 
@@ -63,21 +66,30 @@ export default defineComponent({
     }
 
     function submit() {
-      console.log(user, user_data, passport)
+      checkFormData(user, user_data, teacher, passport);
       switch (user_data.account_type) {
-      case 'teacher': {
-        user_data.account_type = 1;
-        break;
+        case 'teacher': {
+          user_data.account_type = 1;
+          break;
+        }
+        case 'parent': {
+          user_data.account_type = 2;
+          break;
+        }
+        case 'child': {
+          user_data.account_type = 3;
+          break;
+        }
       }
-      case 'parent': {
-        user_data.account_type = 2;
-        break;
+      let body: object | string = {
+        user,
+        user_data,
+        teacher,
+        passport,
       }
-      case 'child': {
-        user_data.account_type = 3;
-        break;
-      }
-    }
+      body = JSON.stringify(body);
+
+      registrationService.createNewUser(body);
     }
 
     return {
