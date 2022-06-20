@@ -2,9 +2,6 @@ import { registrationStore } from "src/modules/Auth/Registration/service/registr
 import axios from "axios";
 import { Service } from 'src/modules/service';
 
-// TODO: сервис должен ходить за данными и отдавать их в стор
-// стор просто сохраняет и обновляет данные
-// сервис их получает.
 export class RegistrationService extends Service {
   private store;
 
