@@ -1,69 +1,54 @@
-export class User {
+export class UserData {
   email: string | null;
   password: string | null;
-  accountType: AccountTypeEnum;
+  account_type: string | number;
 
   constructor() {
     this.email = null;
     this.password = null;
-    this.accountType = AccountTypeEnum.notStated;
+    this.account_type = 'notStated';
   }
 }
 
-export class UserData {
-  sex: UserSexEnum;
-  birthDate: string | null;
-  passport: Passport;
+export class User {
+  birth_date: string | null;
   name: string | null;
   surname: string | null;
   patronymic: string | null;
 
   constructor() {
-    this.sex = UserSexEnum.notStated;
-    this.birthDate = null;
-    this.passport = {
-      passportNumbers: null,
-      passportOrgan: null,
-      issueDate: null,
-      subdivisionCode: null,
-    };
+    this.birth_date = null;
     this.name = null;
     this.surname = null;
     this.patronymic = null;
   }
 }
 
-export class TeacherData {
+export class Teacher {
   institution: string | null;
   qualification: string | null;
-  diploma: object;
 
   constructor() {
     this.institution = null;
     this.qualification = null;
-    this.diploma = {};
   }
 }
 
-export enum UserSexEnum {
-  notStated = 'Не выбран',
-  male = 'муж.',
-  female = 'жен.',
+
+export class Passport {
+  passport_numbers: number | null;
+  passport_organ: string | null;
+  issue_date: Date | null;
+  subdivision_code: string | null;
+
+  constructor() {
+    this.passport_numbers = null;
+    this.passport_organ = null;
+    this.issue_date = null;
+    this.subdivision_code = null;
+  }
 }
 
-export enum AccountTypeEnum {
-  notStated = 'Не выбран',
-  teacher = 'Логопед',
-  parent = 'Родитель',
-  child = 'Ребёнок',
-}
-
-export interface Passport {
-  passportNumbers: number | null,
-  passportOrgan: string | null,
-  issueDate: Date | null,
-  subdivisionCode: string | null,
-}
 
 export interface RegistrationError {
   error: string,
