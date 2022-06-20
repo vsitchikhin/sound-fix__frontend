@@ -12,6 +12,24 @@ export class AutherisationService extends Service {
     this.store = autherisationStore();
   }
 
+  getUser() {
+    return this.store.user;
+  }
+
+  exit() {
+    this.store.SET_AUTHERISATED_USER( {
+      id: null,
+      name: null,
+      surname: null,
+      patronymic: null,
+      birthDate: null,
+      age: null,
+      accountType: null,
+      email: null,
+      password: null
+    })
+  }
+
   autherisateUser(body: User) {
     const response = axios.get(`http://localhost:4000/login?email=${body.email}&password=${body.password}`)
       .then(response => {
